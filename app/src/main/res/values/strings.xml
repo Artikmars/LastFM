@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">LastFM</string>
+    <string name="artist_name">Artist Name</string>
+    <string name="album_name">Album Name</string>
+    <string name="album_tracks">Tracks</string>
+    <string name="album_listeners">Listeners</string>
+    <string name="favorites">Favorites</string>
+    <string name="album_poster">Album Poster</string>
+    <string name="artists_search">Search for Artists</string>
+    <string name="searchHint">Try "Linkin Park"</string>
+    <string name="artist_listeners">Listeners"</string>
+    <string name="track_name">Track Name</string>
+    <string name="track_duration">4:23</string>
+    <string name="switch_text">Favorite</string>
+    <string name="track_duration_label">Duration: </string>
+    <string name="tracks">Tracks </string>
+
+</resources>
