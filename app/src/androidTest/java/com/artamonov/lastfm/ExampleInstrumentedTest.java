@@ -1,13 +1,20 @@
 package com.artamonov.lastfm;
 
-import android.content.Context;
-import android.support.test.InstrumentationRegistry;
+import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
+import com.artamonov.lastfm.ui.MainActivity;
+
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import static org.junit.Assert.*;
+import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.action.ViewActions.typeText;
+import static android.support.test.espresso.matcher.ViewMatchers.withClassName;
+import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static org.hamcrest.core.StringEndsWith.endsWith;
 
 /**
  * Instrumented test, which will execute on an Android device.
@@ -16,11 +23,15 @@ import static org.junit.Assert.*;
  */
 @RunWith(AndroidJUnit4.class)
 public class ExampleInstrumentedTest {
-    @Test
-    public void useAppContext() {
-        // Context of the app under test.
-        Context appContext = InstrumentationRegistry.getTargetContext();
+    @Rule
+    public ActivityTestRule<MainActivity> mActivityTestRule = new ActivityTestRule<>(MainActivity.class);
 
-        assertEquals("com.artamonov.lastfm", appContext.getPackageName());
+    @Test
+    public void mainActivityTest() {
+        onView(withId(R.id.main_menu)).perform(click());
+        onView(withId(R.id.search_menu)).perform(click());
+        onView(withClassName(endsWith("Toolbar"))).perform(click());
+        onView(withClassName(endsWith("Toolbar"))).perform(typeText("Linkin Park"));
+
     }
 }
