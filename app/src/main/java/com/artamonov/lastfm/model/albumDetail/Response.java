@@ -1,4 +1,3 @@
-
 package com.artamonov.lastfm.model.albumDetail;
 
 import com.google.gson.annotations.Expose;

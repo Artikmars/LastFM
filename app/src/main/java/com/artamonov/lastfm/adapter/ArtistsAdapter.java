@@ -14,10 +14,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.artamonov.lastfm.R;
-import com.artamonov.lastfm.ArtistsSearchActivity;
-import com.artamonov.lastfm.TopAlbumsActivity;
 import com.artamonov.lastfm.model.artists.Artist;
 import com.artamonov.lastfm.model.artists.Image;
+import com.artamonov.lastfm.ui.ArtistsSearchActivity;
+import com.artamonov.lastfm.ui.TopAlbumsActivity;
 import com.artamonov.lastfm.utils.Formatter;
 import com.squareup.picasso.Picasso;
 

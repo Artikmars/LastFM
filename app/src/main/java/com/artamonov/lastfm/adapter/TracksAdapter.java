@@ -3,7 +3,6 @@ package com.artamonov.lastfm.adapter;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,7 +14,7 @@ import com.artamonov.lastfm.model.albumDetail.Track;
 
 import java.util.List;
 
-import static com.artamonov.lastfm.AlbumDetailActivity.TAG;
+import static com.artamonov.lastfm.ui.AlbumDetailActivity.TAG;
 
 public class TracksAdapter extends RecyclerView.Adapter<TracksAdapter.ViewHolder> {
 

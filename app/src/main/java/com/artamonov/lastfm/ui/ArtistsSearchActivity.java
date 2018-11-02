@@ -1,5 +1,6 @@
-package com.artamonov.lastfm;
+package com.artamonov.lastfm.ui;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.app.SearchManager;
 import android.content.Context;
@@ -10,33 +11,28 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.inputmethod.InputMethodManager;
 
+import com.artamonov.lastfm.R;
 import com.artamonov.lastfm.adapter.ArtistsAdapter;
+import com.artamonov.lastfm.contract.ArtistsContract;
 import com.artamonov.lastfm.model.artists.Artist;
 import com.artamonov.lastfm.model.artists.Results;
-import com.artamonov.lastfm.network.LastFMApiInterface;
-import com.artamonov.lastfm.network.RetrofitInstance;
+import com.artamonov.lastfm.presenter.ArtistsPresenter;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-
-public class ArtistsSearchActivity extends AppCompatActivity {
+public class ArtistsSearchActivity extends AppCompatActivity implements ArtistsContract.ArtistsView {
 
     public static final String TAG = "myLogs";
-
+    Activity activity = new Activity();
     private RecyclerView rvArtists;
     private Results artistItem;
     private List<Artist> artistItemList = new ArrayList<>();
     private ProgressDialog progressDialog;
+    private ArtistsPresenter artistsPresenter;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -54,9 +50,9 @@ public class ArtistsSearchActivity extends AppCompatActivity {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String artistName) {
-                hideKeyboard();
+                artistsPresenter.hideKeyboard(activity);
                 System.out.println("onQueryTextSubmit");
-                getArtists(artistName);
+                artistsPresenter.getArtists(artistName);
                 progressDialog.show();
                 return true;
             }
@@ -76,11 +72,9 @@ public class ArtistsSearchActivity extends AppCompatActivity {
         Toolbar myToolbar = findViewById(R.id.toolbar);
         setSupportActionBar(myToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
+        artistsPresenter = new ArtistsPresenter(this);
         progressDialog = new ProgressDialog(this);
-        progressDialog.setMessage("Loading...");
-        progressDialog.setMax(100);
-        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+
         rvArtists = findViewById(R.id.rv_artists);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         rvArtists.setLayoutManager(layoutManager);
@@ -88,34 +82,31 @@ public class ArtistsSearchActivity extends AppCompatActivity {
         rvArtists.addItemDecoration(itemDecoration);
     }
 
-    private void getArtists(final String artistName) {
-        Retrofit retrofit = RetrofitInstance.getRetrofitInstance();
-        LastFMApiInterface service = retrofit.create(LastFMApiInterface.class);
-
-        service.getArtists(artistName).enqueue(new Callback<com.artamonov.lastfm.model.artists.Response>() {
-            @Override
-            public void onResponse(Call<com.artamonov.lastfm.model.artists.Response> call, Response<com.artamonov.lastfm.model.artists.Response> response) {
-                progressDialog.dismiss();
-                artistItem = response.body().getResults();
-                artistItemList = artistItem.getArtistmatches().getArtist();
-                ArtistsAdapter artistsAdapter = new ArtistsAdapter(artistItemList, ArtistsSearchActivity.this);
-                rvArtists.setAdapter(artistsAdapter);
-                rvArtists.setHasFixedSize(true);
-            }
-
-            @Override
-            public void onFailure(Call<com.artamonov.lastfm.model.artists.Response> call, Throwable t) {
-                System.out.println("onFailure");
-                System.out.println(t.getMessage());
-                System.out.println(t.getStackTrace());
-                progressDialog.dismiss();
-            }
-        });
+    @Override
+    public void setArtistsAdapter(Results response) {
+        artistItemList = response.getArtistmatches().getArtist();
+        ArtistsAdapter artistsAdapter = new ArtistsAdapter(artistItemList, ArtistsSearchActivity.this);
+        rvArtists.setAdapter(artistsAdapter);
+        rvArtists.setHasFixedSize(true);
     }
 
-    public void hideKeyboard(){
-        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
-                InputMethodManager.RESULT_UNCHANGED_SHOWN);
+    @Override
+    public void showProgressDialog() {
+        progressDialog.setMessage("Loading...");
+        progressDialog.setMax(100);
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progressDialog.show();
+    }
+
+    @Override
+    public void showFailureMessage(Throwable t) {
+        System.out.println("onFailure");
+        System.out.println(t.getMessage());
+        System.out.println(t.getStackTrace());
+    }
+
+    @Override
+    public void dismissProgressDialog() {
+        progressDialog.dismiss();
     }
 }

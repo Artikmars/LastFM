@@ -11,15 +11,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity android:name=".ui.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ArtistsSearchActivity"
+        <activity
+            android:name=".ui.ArtistsSearchActivity"
             android:launchMode="singleTop"
-            android:parentActivityName=".MainActivity">
+            android:parentActivityName=".ui.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
@@ -28,14 +29,16 @@
                 android:resource="@xml/searchable" />
         </activity>
 
-        <activity android:name=".TopAlbumsActivity"
+        <activity
+            android:name=".ui.TopAlbumsActivity"
             android:launchMode="singleTop"
-            android:parentActivityName=".ArtistsSearchActivity">
+            android:parentActivityName=".ui.ArtistsSearchActivity">
         </activity>
 
-        <activity android:name=".AlbumDetailActivity"
+        <activity
+            android:name=".ui.AlbumDetailActivity"
             android:launchMode="singleTop"
-            android:parentActivityName=".TopAlbumsActivity">
+            android:parentActivityName=".ui.TopAlbumsActivity">
         </activity>
     </application>
 

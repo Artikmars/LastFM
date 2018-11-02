@@ -1,4 +1,4 @@
-package com.artamonov.lastfm;
+package com.artamonov.lastfm.ui;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -8,10 +8,9 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 
+import com.artamonov.lastfm.R;
 import com.artamonov.lastfm.adapter.AlbumsAdapter;
-import com.artamonov.lastfm.adapter.ArtistsAdapter;
 import com.artamonov.lastfm.model.topAlbums.Album;
 import com.artamonov.lastfm.model.topAlbums.Topalbums;
 import com.artamonov.lastfm.network.LastFMApiInterface;

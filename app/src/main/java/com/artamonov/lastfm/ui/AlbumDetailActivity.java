@@ -1,4 +1,4 @@
-package com.artamonov.lastfm;
+package com.artamonov.lastfm.ui;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -11,17 +11,17 @@ import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
 import android.widget.ImageView;
+import android.widget.Switch;
 import android.widget.TextView;
 
+import com.artamonov.lastfm.R;
 import com.artamonov.lastfm.adapter.TracksAdapter;
 import com.artamonov.lastfm.model.topAlbums.Album;
 import com.artamonov.lastfm.network.LastFMApiInterface;
 import com.artamonov.lastfm.network.RetrofitInstance;
 import com.squareup.picasso.Picasso;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Formatter;
 import java.util.List;
 
 import butterknife.BindView;
@@ -41,6 +41,8 @@ public class AlbumDetailActivity extends AppCompatActivity {
     TextView tvAlbumPlayCount;
     @BindView(R.id.iv_album_poster)
     ImageView ivAlbumThumbnail;
+    @BindView(R.id.switch_favorite)
+    Switch sFavorite;
     private RecyclerView rvArtists;
     private com.artamonov.lastfm.model.albumDetail.Album albumItem;
     private List<Album> albumsItemList = new ArrayList<>();
@@ -67,6 +69,7 @@ public class AlbumDetailActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         getAlbum(intent.getStringExtra("artistName"), intent.getStringExtra("albumName"));
+
     }
 
     private void getAlbum(String artistName, final String albumName) {
@@ -75,8 +78,8 @@ public class AlbumDetailActivity extends AppCompatActivity {
         service.getAlbum(artistName, albumName).enqueue(new Callback<com.artamonov.lastfm.model.albumDetail.Response>() {
             @Override
             public void onResponse(Call<com.artamonov.lastfm.model.albumDetail.Response> call, retrofit2.Response<com.artamonov.lastfm.model.albumDetail.Response> response) {
-                progressDialog.dismiss();
                 albumItem = response.body().getAlbum();
+                progressDialog.dismiss();
                 tvAlbumName.setText(albumItem.getName());
                 tvArtistName.setText(albumItem.getArtist());
                 tvAlbumPlayCount.setText(com.artamonov.lastfm.utils.Formatter.formatPlayCount(albumItem.getPlaycount()));

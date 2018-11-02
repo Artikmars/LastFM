@@ -13,15 +13,13 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.artamonov.lastfm.AlbumDetailActivity;
 import com.artamonov.lastfm.R;
-import com.artamonov.lastfm.ArtistsSearchActivity;
-import com.artamonov.lastfm.TopAlbumsActivity;
 import com.artamonov.lastfm.model.topAlbums.Album;
+import com.artamonov.lastfm.ui.AlbumDetailActivity;
+import com.artamonov.lastfm.ui.ArtistsSearchActivity;
 import com.artamonov.lastfm.utils.Formatter;
 import com.squareup.picasso.Picasso;
 
-import java.text.DecimalFormat;
 import java.util.List;
 
 public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.ViewHolder> {
@@ -56,18 +54,17 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.ViewHolder
         if (!TextUtils.isEmpty(imageURL)) {
             Picasso.get()
                     .load(imageURL)
-                   // .placeholder(R.drawable.placeholder)
-                    // .error(R.drawable.placeholder_error)
                     .into(viewHolder.albumThumbnail);
         } else {
             Log.i(ArtistsSearchActivity.TAG, "imageURL is Empty");
         }
 
-      viewHolder.linearLayout.setOnClickListener(new View.OnClickListener() {
+        viewHolder.linearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 String albumItemName = albumItem.getName();
-                String artistItemName= albumItem.getArtist().getName();
+                String artistItemName = albumItem.getArtist().getName();
                 Intent intent = new Intent(context, AlbumDetailActivity.class);
                 intent.putExtra("artistName", artistItemName);
                 intent.putExtra("albumName", albumItemName);
