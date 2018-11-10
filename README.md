@@ -12,4 +12,4 @@ Libraries Used:
 * **Butterknife** — casting views
 * **Picasso** — displaying thumbnails
 
-![Alt Text](https://i.imgflip.com/2m85u1.gif)
+![Alt Text](https://im4.ezgif.com/tmp/ezgif-4-e68a293d887d.gif)
